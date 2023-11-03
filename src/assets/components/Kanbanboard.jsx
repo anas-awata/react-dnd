@@ -19,9 +19,10 @@ export default function KanbanBoard() {
   const handleDragEnd = (result) => {
     console.log(result);
     const { destination, source, draggableId } = result;
-
+    //if no destenation
     if (!result.destination) return;
 
+    //reorder in the same section
     if (source.droppableId === destination.droppableId) {
       if (source.droppableId == 2) {
         const completedItems = [...completed];
@@ -40,11 +41,13 @@ export default function KanbanBoard() {
         });
         setIncomplete(incompleteItems);
       }
-    } else {
+    }
+
+    //move to another section
+    else {
       // GET ITEM
       const task = findItemById(draggableId, [...incomplete, ...completed]);
 
-      //ADD ITEM
       if (destination.droppableId == 2) {
         //delete from the source
         setIncomplete(removeItemById(draggableId, incomplete));
@@ -81,14 +84,7 @@ export default function KanbanBoard() {
     <DragDropContext onDragEnd={handleDragEnd}>
       <h2 style={{ textAlign: "center" }}>PROGRESS BOARD</h2>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexDirection: "row",
-        }}
-      >
+      <div>
         <Column title={"TO DO"} tasks={incomplete} id={"1"} />
         <Column title={"DONE"} tasks={completed} id={"2"} />
       </div>
