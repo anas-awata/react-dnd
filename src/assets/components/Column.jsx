@@ -6,6 +6,7 @@ import { Droppable } from "react-beautiful-dnd";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
+import { useState } from "react";
 
 const Container = styled.div`
   background-color: #f4f5f7;
@@ -31,11 +32,12 @@ const TaskList = styled.div`
   flex-grow: 1;
   min-height: 100px;
 `;
-
 export default function Column({ title, tasks, id }) {
+  const [expande, setExpande] = useState(false);
+
   return (
     <Accordion>
-      <AccordionSummary>
+      <AccordionSummary expanded={expande} onClick={() => setExpande(!expande)}>
         <Title
           style={{
             backgroundColor: "lightblue",
@@ -45,7 +47,7 @@ export default function Column({ title, tasks, id }) {
           {title}
         </Title>
       </AccordionSummary>
-      <AccordionDetails>
+      <AccordionDetails sx={{ display: expande ? "block" : "none" }}>
         <Container className="column">
           <Droppable droppableId={id}>
             {(provided, snapshot) => (
